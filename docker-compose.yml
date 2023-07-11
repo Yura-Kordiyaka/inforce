@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: inforce/docker/python/Dockerfile
+    container_name: django
+    command: python ./inforce/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./inforce:/app/inforce
+    ports:
+      - 8000:8000
+    depends_on:
+      - pgdb
+
+  pgdb:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_DB=inforce_attempt_2
+      - POSTGRES_USER=yura
+      - POSTGRES_PASSWORD=password
+    container_name: pgdb
+    volumes:
+      - ./docker/db:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
