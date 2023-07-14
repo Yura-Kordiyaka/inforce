@@ -1,5 +1,5 @@
 import pytest
-from employees.models import *
+
 
 
 @pytest.fixture

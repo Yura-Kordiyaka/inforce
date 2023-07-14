@@ -7,7 +7,7 @@ from employees.models import *
 from .serializer import *
 
 
-# Create your views here.
+
 class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantSerializer

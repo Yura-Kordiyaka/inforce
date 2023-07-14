@@ -1,16 +1,20 @@
 version: '3'
 
+networks:
+  backend:
+    driver: bridge
+
 services:
-  django:
+  backend:
     build:
       context: .
       dockerfile: inforce/docker/python/Dockerfile
-    container_name: django
-    command: python ./inforce/manage.py runserver 0.0.0.0:8000
+    command: ["./wait-for-it.sh", "pgdb:5432", "--", "python", "/app/inforce/manage.py", "runserver", "0.0.0.0:8000"]
     volumes:
       - ./inforce:/app/inforce
     ports:
       - 8000:8000
+    container_name: backend
     depends_on:
       - pgdb
 
@@ -26,3 +30,16 @@ services:
       - ./docker/db:/var/lib/postgresql/data
     ports:
       - 5433:5432
+
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - .:/app
+      - ./inforce/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8080:80
+    networks:
+      - backend
+    depends_on:
+      - backend

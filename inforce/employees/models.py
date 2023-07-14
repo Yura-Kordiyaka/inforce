@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from restaurants.models import Menu
 
 
-# Create your models here.
+
 class Employee(AbstractUser):
     address = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
