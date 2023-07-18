@@ -10,11 +10,9 @@ COPY . /app
 
 COPY ./requirements.txt /app/requirements.txt
 
-RUN pip install -r requirements.txt
 
-COPY . .
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-COPY ./wait-for-it.sh /app/wait-for-it.sh
-RUN chmod +x /app/wait-for-it.sh
+COPY . /app
 
-ENTRYPOINT ["/app/inforce/docker/python/entrypoint.sh"]
+
